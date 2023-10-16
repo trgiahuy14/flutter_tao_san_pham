@@ -14,7 +14,11 @@ class ListProductScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+
+        children: [ Row(
           crossAxisAlignment: CrossAxisAlignment.start, // Để đảm bảo hình ảnh ở bên trái
           children: [
             // Hình ảnh bên trái
@@ -32,8 +36,8 @@ class ListProductScreen extends StatelessWidget {
                 children: [
                   Text('Tên sản phẩm: ${product.name}'),
                   Text('Mô tả: ${product.description}'),
-                  Text('Giá: ${product.price.toStringAsFixed(0)}'),
-                  ElevatedButton(
+                  Text('Giá: ${product.price.toStringAsFixed(0)}VND'),
+                  ElevatedButton.icon(
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -41,7 +45,11 @@ class ListProductScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text('Chọn'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green, // Đặt màu xanh lá cho nút "View"
+                    ),
+                    icon: Icon(Icons.open_in_new),
+                    label: Text('Chọn'),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -53,6 +61,8 @@ class ListProductScreen extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        ],
         ),
       ),
     );

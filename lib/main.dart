@@ -70,7 +70,7 @@ class _ProductFormState extends State<ProductForm> {
             controller: imageController,
             decoration: InputDecoration(labelText: 'Image URL'),
           ),
-          ElevatedButton(
+          ElevatedButton.icon(
             onPressed: () {
               Product product = Product(
                 name: nameController.text,
@@ -81,13 +81,14 @@ class _ProductFormState extends State<ProductForm> {
               setState(() {
                 productList.add(product);
               });
-              // Xóa nội dung trường văn bản sau khi bấm Save
+
               nameController.clear();
               descriptionController.clear();
               priceController.clear();
               imageController.clear();
             },
-            child: Text('Save'),
+            icon: Icon(Icons.save),
+            label: Text('SAVE'),
           ),
           Expanded(
             child: ListView.builder(
@@ -99,13 +100,13 @@ class _ProductFormState extends State<ProductForm> {
                     ListTile(
                       title: Text('Tên sản phẩm: ${product.name}'),
                       subtitle: Text('Mô tả: ${product.description}'),
-                      trailing: Text('Giá: ${product.price.toStringAsFixed(0)}'),
+                      trailing: Text('Giá: ${product.price.toStringAsFixed(0)} VND'),
                       leading: Image.network(product.image),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        ElevatedButton(
+                        ElevatedButton.icon(
                           onPressed: () {
                             // Handle "View" button click
                             Navigator.of(context).push(
@@ -117,18 +118,21 @@ class _ProductFormState extends State<ProductForm> {
                           style: ElevatedButton.styleFrom(
                             primary: Colors.green, // Đặt màu xanh lá cho nút "View"
                           ),
-                          child: Text('View', style: TextStyle(color: Colors.white)),
+                          icon: Icon(Icons.open_in_new),
+                          label: Text('VIEW'),
                         ),
-                        ElevatedButton(
+                        ElevatedButton.icon(
                           onPressed: () {
 
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.orange,
                           ),
-                          child: Text('Edit'),
+                          icon: Icon(Icons.build),
+                          label: Text('EDIT'),
+
                         ),
-                        ElevatedButton(
+                        ElevatedButton.icon(
                           onPressed: () {
 
                             deleteProduct(product);
@@ -136,7 +140,8 @@ class _ProductFormState extends State<ProductForm> {
                           style: ElevatedButton.styleFrom(
                             primary: Colors.red,
                           ),
-                          child: Text('Delete', style: TextStyle(color: Colors.white)),
+                          icon: Icon(Icons.delete),
+                          label: Text('EDIT'),
                         ),
                       ],
                     ),
