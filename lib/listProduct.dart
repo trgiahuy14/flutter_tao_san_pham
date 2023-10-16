@@ -1,6 +1,6 @@
-import "main.dart";
 import 'package:flutter/material.dart';
 import 'productDetail.dart';
+import 'main.dart';
 class ListProductScreen extends StatelessWidget {
   final Product product;
 
@@ -17,52 +17,77 @@ class ListProductScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-
-        children: [ Row(
-          crossAxisAlignment: CrossAxisAlignment.start, // Để đảm bảo hình ảnh ở bên trái
           children: [
-            // Hình ảnh bên trái
-            Container(
-              width: 100, // Đặt kích thước hình ảnh theo nhu cầu của bạn
-              height: 100,
-              child: Image.network(product.image),
-            ),
-            SizedBox(width: 16.0), // Khoảng cách giữa hình ảnh và thông tin
+            Card(
 
-            // Thông tin bên phải
-            Expanded(
-              child: Column(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+
+              child: Row(
+
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Tên sản phẩm: ${product.name}'),
-                  Text('Mô tả: ${product.description}'),
-                  Text('Giá: ${product.price.toStringAsFixed(0)}VND'),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ProductDetailScreen(product),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green, // Đặt màu xanh lá cho nút "View"
+
+                  Container(
+
+                    width: 150,
+                    height: 118,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    icon: Icon(Icons.open_in_new),
-                    label: Text('Chọn'),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(product.image),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Back'),
+                  SizedBox(width: 16.0),
+
+                  // Thông tin bên phải
+                  Expanded(
+
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tên sản phẩm: ${product.name}',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text('Mô tả: ${product.description}'),
+                        Text('Giá: ${product.price.toStringAsFixed(0)} VND'),
+                        SizedBox(height: 8.0),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetailScreen(product),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                          ),
+                          icon: Icon(Icons.open_in_new),
+                          label: Text('Chọn'),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
+      ),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Back'),
             ),
           ],
-        ),
-        ],
         ),
       ),
     );

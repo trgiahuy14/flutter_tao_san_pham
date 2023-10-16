@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'listProduct.dart';
-// https://via.placeholder.com/150
-
+import 'editProduct.dart';
 void main() {
   runApp(MyApp());
 }
 
 class Product {
-  final String name;
-  final String description;
-  final double price;
-  final String image;
+  String name;
+  String description;
+  double price;
+  String image;
 
   Product({required this.name, required this.description, required this.price, required this.image});
 }
@@ -43,6 +42,19 @@ class _ProductFormState extends State<ProductForm> {
     });
   }
 
+  void addProduct(Product product) {
+    setState(() {
+      productList.add(product);
+    });
+  }
+
+  void editProduct(Product oldProduct, Product newProduct) {
+    setState(() {
+      int index = productList.indexOf(oldProduct);
+      productList[index] = newProduct;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,111 +63,108 @@ class _ProductFormState extends State<ProductForm> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-      child:Center(
-        child: Column(
-        children: [
-          TextField(
-            controller: nameController,
-            decoration: InputDecoration(labelText: 'Tên sản phẩm'),
-          ),
-          TextField(
-            controller: descriptionController,
-            decoration: InputDecoration(labelText: 'Mô tả'),
-          ),
-          TextField(
-            controller: priceController,
-            decoration: InputDecoration(labelText: 'Giá'),
-          ),
-          TextField(
-            controller: imageController,
-            decoration: InputDecoration(labelText: 'Image URL'),
-          ),
-          ElevatedButton.icon(
-            onPressed: () {
-              Product product = Product(
-                name: nameController.text,
-                description: descriptionController.text,
-                price: double.parse(priceController.text),
-                image: imageController.text,
-              );
-              setState(() {
-                productList.add(product);
-              });
+        child: Center(
+          child: Column(
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: 'Tên sản phẩm'),
+              ),
+              TextField(
+                controller: descriptionController,
+                decoration: InputDecoration(labelText: 'Mô tả'),
+              ),
+              TextField(
+                controller: priceController,
+                decoration: InputDecoration(labelText: 'Giá'),
+              ),
+              TextField(
+                controller: imageController,
+                decoration: InputDecoration(labelText: 'Image Assets Path'),
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Product product = Product(
+                    name: nameController.text,
+                    description: descriptionController.text,
+                    price: double.parse(priceController.text),
+                    image: imageController.text,
+                  );
+                  addProduct(product);
 
-              nameController.clear();
-              descriptionController.clear();
-              priceController.clear();
-              imageController.clear();
-            },
-            icon: Icon(Icons.save),
-            label: Text('SAVE'),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                Product product = productList[index];
-                return Column(
-                  children: [
-                    ListTile(
-                      title: Text('Tên sản phẩm: ${product.name}'),
-                      subtitle: Text('Mô tả: ${product.description}'),
-                      trailing: Text('Giá: ${product.price.toStringAsFixed(0)} VND'),
-                      leading: Image.network(product.image),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  nameController.clear();
+                  descriptionController.clear();
+                  priceController.clear();
+                  imageController.clear();
+                },
+                icon: Icon(Icons.save),
+                label: Text('SAVE'),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: productList.length,
+                  itemBuilder: (context, index) {
+                    Product product = productList[index];
+                    return Column(
                       children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            // Handle "View" button click
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ListProductScreen(product),
+                        ListTile(
+                          title: Text('Tên sản phẩm: ${product.name}'),
+                          subtitle: Text('Mô tả: ${product.description}'),
+                          trailing: Text('Giá: ${product.price.toStringAsFixed(0)} VND'),
+                          leading: Image.asset(product.image),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ListProductScreen(product),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green, // Đặt màu xanh lá cho nút "View"
-                          ),
-                          icon: Icon(Icons.open_in_new),
-                          label: Text('VIEW'),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {
-
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.orange,
-                          ),
-                          icon: Icon(Icons.build),
-                          label: Text('EDIT'),
-
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {
-
-                            deleteProduct(product);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                          ),
-                          icon: Icon(Icons.delete),
-                          label: Text('EDIT'),
+                              icon: Icon(Icons.open_in_new),
+                              label: Text('VIEW'),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProductScreen(product, onEdit: editProduct),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.orange,
+                              ),
+                              icon: Icon(Icons.build),
+                              label: Text('EDIT'),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                deleteProduct(product);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.red,
+                              ),
+                              icon: Icon(Icons.delete),
+                              label: Text('DELETE'),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                  ],
-                );
-              },
-            ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
+        ),
       ),
     );
-
   }
 }
-
