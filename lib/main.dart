@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'listProduct.dart';
+// https://via.placeholder.com/150
+
 void main() {
   runApp(MyApp());
 }
@@ -47,7 +49,10 @@ class _ProductFormState extends State<ProductForm> {
       appBar: AppBar(
         title: Text('Tạo sản phẩm'),
       ),
-      body: Column(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+      child:Center(
+        child: Column(
         children: [
           TextField(
             controller: nameController,
@@ -142,7 +147,10 @@ class _ProductFormState extends State<ProductForm> {
           ),
         ],
       ),
+    ),
+      ),
     );
+
   }
 }
 

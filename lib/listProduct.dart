@@ -1,5 +1,6 @@
 import "main.dart";
 import 'package:flutter/material.dart';
+import 'productDetail.dart';
 class ListProductScreen extends StatelessWidget {
   final Product product;
 
@@ -32,6 +33,16 @@ class ListProductScreen extends StatelessWidget {
                   Text('Tên sản phẩm: ${product.name}'),
                   Text('Mô tả: ${product.description}'),
                   Text('Giá: ${product.price.toStringAsFixed(0)}'),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailScreen(product),
+                        ),
+                      );
+                    },
+                    child: Text('Chọn'),
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
